@@ -68,9 +68,6 @@ class LocationHelper(private val context: Context) {
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener { locationSettingsResponse ->
-            // All location settings are satisfied. The client can initialize
-            // location requests here.
-            // ...
             val state = locationSettingsResponse.locationSettingsStates
 
             val label =
@@ -83,15 +80,11 @@ class LocationHelper(private val context: Context) {
 
         task.addOnFailureListener { exception ->
             if (exception is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
                 try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
+
                     startLocationUpdates()
 
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error.
 
                 }
             }

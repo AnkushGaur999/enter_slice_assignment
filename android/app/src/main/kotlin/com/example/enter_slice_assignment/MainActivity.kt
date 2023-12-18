@@ -76,12 +76,12 @@ class MainActivity : FlutterActivity(), LocationHelper.LastLocation {
             val addresses = geocoder.getFromLocation(lat, long, 1)
             if (addresses != null && addresses.size > 0) {
                 val address =
-                    addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    addresses[0].getAddressLine(0)
                 val city = addresses[0].locality
                 val state = addresses[0].adminArea
                 val country = addresses[0].countryName
                 val postalCode = addresses[0].postalCode
-                val knownName = addresses[0].featureName // Only if available else return NULL
+                val knownName = addresses[0].featureName
 
                 add = city+", "+ state+ " "+country+" "+ postalCode
                 Log.d("add", "getAddressFromLatLng: $address $add")
@@ -115,8 +115,6 @@ class MainActivity : FlutterActivity(), LocationHelper.LastLocation {
         )
     }
 
-    // method to check
-    // if location is enabled
     private fun isLocationEnabled(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -124,7 +122,6 @@ class MainActivity : FlutterActivity(), LocationHelper.LastLocation {
         )
     }
 
-    // If everything is alright then
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,

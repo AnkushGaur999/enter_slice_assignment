@@ -114,8 +114,7 @@ class LiveLocationService : Service(), LocationHelper.LastLocation{
     }
 
     private fun getAddressFromLatLng(context: Context?, lat: Double, long: Double): String {
-        //Set Address
-        //Set Address
+
         var add:String = ""
         try {
             val geocoder = Geocoder(context, Locale.getDefault())

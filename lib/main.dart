@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Enter Slice',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Enter Slice Live Location'),
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -35,12 +32,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   final MethodChannel _channel = const MethodChannel('live_location');
-  static const EventChannel _eventChannel = EventChannel(
-      'live_location/events');
-
+  static const EventChannel _eventChannel =
+      EventChannel('live_location/events');
 
   String _receivedData = "Loading";
 
@@ -62,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,25 +65,27 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-
-            const Text("Current Location is: ", style: TextStyle(fontSize: 20,
-            fontWeight: FontWeight.bold, color: Colors.black),),
-
-      Text(
-      _receivedData,
-      style: const TextStyle(fontSize: 20, color: Colors.black,),
-    ),]
-    ,
-    )
-    ,
-    )
-    ,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              "Current Location is: ",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            Text(
+              _receivedData,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
-
 }
