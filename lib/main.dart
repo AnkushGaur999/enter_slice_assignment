@@ -1,9 +1,16 @@
-
+import 'package:enter_slice_assignment/controller/location_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const MyApp());
+  Get.put(LocationController());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.pink.shade50,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,20 +19,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Enter Slice',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Enter Slice Live Location'),
+      initialRoute: "/myhomepage",
+      getPages: [
+        GetPage(
+            name: "/myhomepage",
+            page: () => MyHomePage(title: "Enter Slice Assignment"))
+      ],
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title});
 
   final String title;
+
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -33,27 +47,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final MethodChannel _channel = const MethodChannel('live_location');
-  static const EventChannel _eventChannel =
-      EventChannel('live_location/events');
 
-  String _receivedData = "Loading";
-
-  void _onEvent(Object? event) {
-    setState(() {
-      _receivedData = ' $event';
-    });
-  }
-
-  void _onError(Object error) {
-    setState(() {
-      _receivedData = 'Error: $error';
-    });
-  }
-
+  final LocationController _controller = Get.put(LocationController());
   @override
   void initState() {
     super.initState();
-    _eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
+    _controller.init();
   }
 
   @override
@@ -69,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            const Icon(
+              Icons.map,
+              size: 24,
+            ),
             const Text(
               "Current Location is: ",
               style: TextStyle(
@@ -76,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
-            Text(
-              _receivedData,
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
+            GetBuilder<LocationController>(builder: (controller) {
+
+           //   print(_controller.receivedData.toString());
+
+              return Text(_controller.receivedData,
+                  style: const TextStyle(fontSize: 20, color: Colors.black));
+            })
           ],
         ),
       ),

@@ -28,7 +28,6 @@ class MainActivity : FlutterActivity(), LocationHelper.LastLocation {
     private var dataStream: EventChannel.EventSink? = null
     private lateinit var locationHelper:LocationHelper
 
-
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
