@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Enter Slice</string>
+    <string name="app_notification_description">This app is fetch location is background</string>
+</resources>
